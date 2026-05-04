@@ -1,0 +1,54 @@
+{
+  "snapshot_id": "aft:reputation:search-buyer-001-2026-05",
+  "agent_id": "aft:agent:search-buyer-001",
+  "issuer_id": "aft:issuer:reputation-service-example",
+  "period_start": "2026-04-01T00:00:00Z",
+  "period_end": "2026-05-01T00:00:00Z",
+  "context": "low-value paid API usage",
+  "trust_tier": "AFT-T4",
+  "confidence": 0.82,
+  "metrics": {
+    "settlement_reliability": 0.998,
+    "late_payment_rate": 0,
+    "default_count": 0,
+    "dispute_rate": 0.002,
+    "dispute_loss_rate": 0,
+    "fraud_validated_count": 0,
+    "security_incident_count": 0,
+    "policy_violation_rate": 0,
+    "mandate_compliance_score": 0.997,
+    "max_verified_transaction_amount": {
+      "value": "4.75",
+      "currency": "USD"
+    },
+    "credit_utilization": 0,
+    "repayment_reliability": 1,
+    "domain_trust": 0.91,
+    "principal_trust": 0.93,
+    "operator_trust": 0.89,
+    "counterparty_feedback": 0.88
+  },
+  "privacy": {
+    "classification": "HASH_ONLY",
+    "pii_present": false,
+    "retention_policy": "public root only; private metric inputs retained by issuer"
+  },
+  "crypto": {
+    "canonicalization": "JCS-RFC8785",
+    "digest_alg": "SHA-384",
+    "snapshot_hash": "sha384:272727272727272727272727272727272727272727272727272727272727272727272727272727272727272727272727",
+    "reputation_root": "sha256:2828282828282828282828282828282828282828282828282828282828282828",
+    "pqc_profile": "AFT-PQC-3"
+  },
+  "signatures": [
+    {
+      "alg": "aft-sig-ml-dsa",
+      "kid": "aft-key-reputation-service-ml-dsa-v1",
+      "key_version": 1,
+      "pqc_profile": "AFT-PQC-3",
+      "signature_value": "MLDSAReputationSnapshotSignatureExample001",
+      "signature_created_at": "2026-05-01T00:05:00Z",
+      "verification_method": "did:web:reputation.example#ml-dsa-v1"
+    }
+  ]
+}

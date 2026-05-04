@@ -1,0 +1,67 @@
+{
+  "aft_version": "0.1",
+  "peer_id": "did:web:marketplace.example",
+  "peer_name": "Example Agent Marketplace",
+  "peer_type": ["agent_marketplace", "merchant", "event_issuer", "event_verifier"],
+  "status": "active",
+  "service_endpoints": {
+    "events": "https://marketplace.example/aft/v1/events",
+    "credentials": "https://marketplace.example/aft/v1/credentials",
+    "revocation": "https://marketplace.example/aft/v1/revocations",
+    "risk": "https://marketplace.example/aft/v1/risk",
+    "anchors": "https://marketplace.example/aft/v1/anchors",
+    "attestations": "https://marketplace.example/aft/v1/attestations"
+  },
+  "supported_event_types": [
+    "AGENT_ESCROW_FUNDED",
+    "AGENT_ESCROW_RELEASED",
+    "AGENT_ESCROW_DISPUTED",
+    "AGENT_OBLIGATION_FULFILLED",
+    "AGENT_POLICY_VIOLATION_RECORDED"
+  ],
+  "supported_credentials": [
+    "AgentMarketplaceMembershipCredential",
+    "AgentServiceDeliveryCredential",
+    "AgentEscrowCredential"
+  ],
+  "supported_crypto_profiles": [
+    "aft-sig-ml-dsa",
+    "aft-sig-slh-dsa",
+    "aft-sig-hybrid-ed25519-ml-dsa"
+  ],
+  "pqc_readiness_level": "AFT-PQC-3",
+  "anchoring": {
+    "mode": "hybrid",
+    "supported_ledgers": ["ethereum", "hyperledger-fabric"],
+    "anchor_endpoint": "https://marketplace.example/aft/v1/anchors",
+    "anchor_policy_hash": "sha256:4747474747474747474747474747474747474747474747474747474747474747"
+  },
+  "conformance": {
+    "profiles": ["AFT-Core", "AFT-Events", "AFT-Anchoring", "AFT-PQC-Primary", "AFT-Peer", "AFT-Multi-Attestation"],
+    "test_report_hash": "sha256:4848484848484848484848484848484848484848484848484848484848484848"
+  },
+  "privacy": {
+    "default_disclosure": "restricted",
+    "pii_on_chain": false,
+    "evidence_storage": "encrypted_off_chain",
+    "privacy_policy_url": "https://marketplace.example/aft/privacy",
+    "privacy_policy_hash": "sha256:4949494949494949494949494949494949494949494949494949494949494949"
+  },
+  "revocation": {
+    "endpoint": "https://marketplace.example/aft/v1/revocations",
+    "latest_revocation_root": "sha256:5050505050505050505050505050505050505050505050505050505050505050"
+  },
+  "created_at": "2026-05-04T13:05:00Z",
+  "updated_at": "2026-05-04T13:35:00Z",
+  "signatures": [
+    {
+      "alg": "aft-sig-ml-dsa",
+      "kid": "marketplace-peer-ml-dsa-v1",
+      "key_version": 1,
+      "pqc_profile": "AFT-PQC-3",
+      "signature_value": "MLDSAMarketplaceDiscoverySignatureExample001",
+      "verification_method": "did:web:marketplace.example#aft-ml-dsa-v1",
+      "signature_created_at": "2026-05-04T13:35:01Z"
+    }
+  ]
+}

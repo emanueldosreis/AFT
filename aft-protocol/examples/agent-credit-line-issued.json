@@ -1,0 +1,79 @@
+{
+  "event_id": "aft:event:credit-line-issued-2026-05-04-001",
+  "aft_event_version": "0.1",
+  "event_type": "AGENT_CREDIT_LINE_ISSUED",
+  "event_time": "2026-05-04T16:00:00Z",
+  "agent_id": "aft:agent:procurement-agent-009",
+  "principal_id": "aft:principal:acme-corp",
+  "operator_id": "aft:operator:acme-runtime",
+  "counterparty_id": "aft:lender:working-capital-example",
+  "transaction": {
+    "transaction_id": "credit-line-2026-05-04-001",
+    "transaction_type": "CREDIT",
+    "status": "ISSUED",
+    "amount": {
+      "value": "10000.00",
+      "currency": "USD"
+    },
+    "asset_type": "CREDIT",
+    "payment_protocol": "BANK",
+    "rail_ref": "lender-credit-facility-reference",
+    "purpose_code": "PROCUREMENT_WORKING_CAPITAL"
+  },
+  "authority": {
+    "mandate_id": "aft:mandate:credit-utilization-2026-05",
+    "mandate_type": "CREDIT_UTILIZATION_AUTHORITY",
+    "mandate_hash": "sha256:2020202020202020202020202020202020202020202020202020202020202020",
+    "principal_id": "aft:principal:acme-corp",
+    "agent_id": "aft:agent:procurement-agent-009",
+    "authorized": true,
+    "scope": [
+      "credit.working-capital",
+      "procurement-only"
+    ],
+    "amount_limit": {
+      "value": "10000.00",
+      "currency": "USD"
+    },
+    "expires_at": "2026-12-31T23:59:59Z",
+    "nonce": "creditnonce001",
+    "policy_ref": "policy:acme:agent-credit:v1"
+  },
+  "evidence": {
+    "evidence_type": "CREDIT",
+    "evidence_hashes": [
+      "sha256:2121212121212121212121212121212121212121212121212121212121212121"
+    ],
+    "evidence_uri": "urn:aft:evidence:credit-line-issued-001",
+    "receipt_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "redaction_status": "SELECTIVE_DISCLOSURE"
+  },
+  "privacy": {
+    "classification": "RESTRICTED",
+    "pii_present": false,
+    "on_chain_disclosure": [
+      "EVENT_HASH",
+      "MERKLE_ROOT"
+    ],
+    "selective_disclosure": true,
+    "retention_policy": "credit terms retained off-chain by lender and principal"
+  },
+  "crypto": {
+    "canonicalization": "JCS-RFC8785",
+    "digest_alg": "SHA-384",
+    "event_hash": "sha384:232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323",
+    "pqc_profile": "AFT-PQC-2",
+    "signature_input": "AFT-EVENT-DRAFT-0.1:event-without-signature-values"
+  },
+  "signatures": [
+    {
+      "alg": "aft-sig-hybrid-ecdsa-ml-dsa",
+      "kid": "aft-key-lender-hybrid-v1",
+      "key_version": 1,
+      "pqc_profile": "AFT-PQC-2",
+      "signature_value": "HybridLenderSignatureExample001",
+      "signature_created_at": "2026-05-04T16:00:03Z",
+      "verification_method": "did:web:lender.example#aft-hybrid-v1"
+    }
+  ]
+}

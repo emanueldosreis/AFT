@@ -1,0 +1,104 @@
+{
+  "event_id": "aft:event:x402-payment-settled-2026-05-04-001",
+  "aft_event_version": "0.1",
+  "event_type": "AGENT_PAYMENT_SETTLED",
+  "event_time": "2026-05-04T13:10:00Z",
+  "agent_id": "aft:agent:search-buyer-001",
+  "principal_id": "aft:principal:acme-corp",
+  "operator_id": "aft:operator:acme-runtime",
+  "counterparty_id": "aft:counterparty:search-api-example",
+  "transaction": {
+    "transaction_id": "x402-txn-2026-05-04-001",
+    "transaction_type": "PAYMENT",
+    "status": "SETTLED",
+    "amount": {
+      "value": "0.025",
+      "currency": "USD"
+    },
+    "asset_type": "FIAT",
+    "payment_protocol": "X402",
+    "rail_ref": "processor-tokenized-settlement",
+    "settlement_id": "settlement-x402-001",
+    "purpose_code": "PAID_API_SEARCH",
+    "external_refs": [
+      "x402:resource:search-api:v1:query-classification-basic"
+    ]
+  },
+  "authority": {
+    "mandate_id": "aft:mandate:low-value-api-2026-05",
+    "mandate_type": "LOW_VALUE_API_PURCHASE",
+    "mandate_hash": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+    "principal_id": "aft:principal:acme-corp",
+    "agent_id": "aft:agent:search-buyer-001",
+    "authorized": true,
+    "scope": [
+      "paid-api.search",
+      "max-per-request-usd-5"
+    ],
+    "amount_limit": {
+      "value": "5.00",
+      "currency": "USD"
+    },
+    "expires_at": "2026-06-01T00:00:00Z",
+    "nonce": "x402nonce001",
+    "policy_ref": "policy:acme:paid-api-low-value:v3"
+  },
+  "evidence": {
+    "evidence_type": "RECEIPT",
+    "evidence_hashes": [
+      "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+    ],
+    "evidence_uri": "urn:aft:evidence:x402-payment-settled-001",
+    "receipt_hash": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+    "external_evidence_refs": [
+      "x402:receipt:example:001"
+    ],
+    "redaction_status": "SELECTIVE_DISCLOSURE"
+  },
+  "privacy": {
+    "classification": "PRIVATE",
+    "pii_present": false,
+    "on_chain_disclosure": [
+      "EVENT_HASH",
+      "MERKLE_ROOT"
+    ],
+    "selective_disclosure": true,
+    "retention_policy": "retain private event body for 18 months; anchor hash indefinitely"
+  },
+  "blockchain_anchor": {
+    "batch_id": "aft:batch:events-2026-05-04-001",
+    "chain_id": "eip155:11155111",
+    "network": "example-testnet",
+    "transaction_ref": "0xanchortransaction001",
+    "batch_root": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+    "event_leaf_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "inclusion_proof_ref": "urn:aft:proof:x402-payment-settled-001",
+    "anchored_at": "2026-05-04T13:15:00Z"
+  },
+  "crypto": {
+    "canonicalization": "JCS-RFC8785",
+    "digest_alg": "SHA-384",
+    "event_hash": "sha384:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "pqc_profile": "AFT-PQC-3",
+    "signature_input": "AFT-EVENT-DRAFT-0.1:event-without-signature-values"
+  },
+  "signatures": [
+    {
+      "alg": "aft-sig-ml-dsa",
+      "kid": "aft-key-search-buyer-ml-dsa-v1",
+      "key_version": 1,
+      "pqc_profile": "AFT-PQC-3",
+      "signature_value": "MLDSASignatureValueForExampleOnly001",
+      "signature_created_at": "2026-05-04T13:10:01Z",
+      "signature_expires_at": "2027-05-04T13:10:01Z",
+      "verification_method": "did:web:agents.example:search-buyer-001#ml-dsa-v1"
+    }
+  ],
+  "correlation": {
+    "correlation_id": "corr-paid-api-2026-05-04-001",
+    "external_reference_ids": [
+      "x402:request:001"
+    ],
+    "workflow_id": "workflow:agent-search-session-commitment-001"
+  }
+}

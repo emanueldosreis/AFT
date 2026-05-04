@@ -1,0 +1,47 @@
+{
+  "dispute_id": "aft:dispute:payment-dispute-2026-05-04-001",
+  "event_id": "aft:event:ap2-procurement-payment-2026-05-04-001",
+  "agent_id": "aft:agent:procurement-agent-009",
+  "counterparty_id": "aft:counterparty:software-merchant-example",
+  "claimant_id": "aft:principal:acme-corp",
+  "respondent_id": "aft:counterparty:software-merchant-example",
+  "status": "OPEN",
+  "opened_at": "2026-05-04T17:00:00Z",
+  "updated_at": "2026-05-04T17:00:00Z",
+  "reason_code": "RESOURCE_NOT_AS_DESCRIBED",
+  "amount": {
+    "value": "1250.00",
+    "currency": "USD"
+  },
+  "outcome": "PENDING",
+  "evidence": {
+    "evidence_hashes": [
+      "sha256:2424242424242424242424242424242424242424242424242424242424242424"
+    ],
+    "evidence_uri": "urn:aft:evidence:payment-dispute-001",
+    "redaction_status": "HASH_ONLY"
+  },
+  "privacy": {
+    "classification": "RESTRICTED",
+    "pii_present": false,
+    "retention_policy": "restricted dispute evidence retained off-chain until resolution plus applicable retention period"
+  },
+  "crypto": {
+    "canonicalization": "JCS-RFC8785",
+    "digest_alg": "SHA-384",
+    "dispute_hash": "sha384:252525252525252525252525252525252525252525252525252525252525252525252525252525252525252525252525",
+    "dispute_status_commitment": "sha256:2626262626262626262626262626262626262626262626262626262626262626",
+    "pqc_profile": "AFT-PQC-3"
+  },
+  "signatures": [
+    {
+      "alg": "aft-sig-ml-dsa",
+      "kid": "aft-key-acme-disputes-ml-dsa-v1",
+      "key_version": 1,
+      "pqc_profile": "AFT-PQC-3",
+      "signature_value": "MLDSADisputeSignatureExample001",
+      "signature_created_at": "2026-05-04T17:00:01Z",
+      "verification_method": "did:web:acme.example#disputes-ml-dsa-v1"
+    }
+  ]
+}

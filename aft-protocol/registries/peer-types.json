@@ -1,0 +1,187 @@
+{
+  "registry_name": "peer-types",
+  "version": "0.1",
+  "status": "draft",
+  "entries": [
+    {
+      "code": "agent_operator",
+      "name": "Agent Operator",
+      "description": "Runs or hosts an agent runtime and may attest operational, mandate-compliance, or incident evidence.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "principal",
+      "name": "Principal",
+      "description": "Entity on whose behalf an agent may act and that may issue mandate or delegation credentials.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "controller",
+      "name": "Controller",
+      "description": "Entity controlling agent profile lifecycle, keys, and administrative policy.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "merchant",
+      "name": "Merchant",
+      "description": "Provides goods, services, content, APIs, or agent work outputs and may attest fulfillment.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "api_provider",
+      "name": "API Provider",
+      "description": "Offers paid or metered APIs and may attest access, usage, settlement, or policy outcomes.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "content_provider",
+      "name": "Content Provider",
+      "description": "Offers paid or licensed content and may attest access or license compliance.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "payment_processor",
+      "name": "Payment Processor",
+      "description": "Processes or observes payment authorization, settlement, failure, refund, reversal, or chargeback outcomes.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "wallet_provider",
+      "name": "Wallet Provider",
+      "description": "Provides wallet, custody, signing, or policy-controlled payment infrastructure.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "agent_marketplace",
+      "name": "Agent Marketplace",
+      "description": "Lists, brokers, or settles work between agents, principals, merchants, and counterparties.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "auditor",
+      "name": "Auditor",
+      "description": "Reviews controls, security posture, conformance, or evidence and may issue certifications.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "security_incident_reporter",
+      "name": "Security Incident Reporter",
+      "description": "Reports, validates, rejects, or updates security incidents affecting agents or peers.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "dispute_arbiter",
+      "name": "Dispute Arbiter",
+      "description": "Resolves disputed AFT events, payments, obligations, incidents, or reputation-impacting reports.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "credit_provider",
+      "name": "Credit Provider",
+      "description": "Extends credit or evaluates creditworthiness for agents or principals.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "insurer",
+      "name": "Insurer",
+      "description": "Offers coverage, guarantees, or claims processing for agent financial activity.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "reputation_provider",
+      "name": "Reputation Provider",
+      "description": "Computes contextual risk or reputation views from signed evidence, credentials, and policies.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "anchor_provider",
+      "name": "Anchor Provider",
+      "description": "Batches and anchors AFT commitments on public chains, L2s, permissioned DLTs, or consortium ledgers.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "registry_maintainer",
+      "name": "Registry Maintainer",
+      "description": "Maintains versioned AFT registries for peer types, event types, algorithms, and conformance profiles.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "conformance_tester",
+      "name": "Conformance Tester",
+      "description": "Runs AFT conformance tests and may issue signed conformance reports or credentials.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "event_issuer",
+      "name": "Event Issuer",
+      "description": "Peer capability indicating that the peer emits signed AFT events within a declared evidence scope.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "event_verifier",
+      "name": "Event Verifier",
+      "description": "Peer capability indicating that the peer verifies signed AFT events, attestations, credentials, or anchors.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    }
+  ]
+}

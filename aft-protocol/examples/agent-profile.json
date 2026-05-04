@@ -1,0 +1,99 @@
+{
+  "agent_id": "aft:agent:search-buyer-001",
+  "handle": "search-buyer-001",
+  "did": "did:web:agents.example:search-buyer-001",
+  "owner_id": "aft:owner:acme-ai",
+  "principal_id": "aft:principal:acme-corp",
+  "operator_id": "aft:operator:acme-runtime",
+  "controller_id": "aft:controller:acme-security",
+  "funding_source_refs": [
+    {
+      "ref_id": "funding-src-2026-001",
+      "ref_type": "PROCESSOR_TOKEN",
+      "ref_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "issuer_id": "aft:issuer:processor-example",
+      "status": "ACTIVE"
+    }
+  ],
+  "payment_instrument_refs": [
+    {
+      "ref_id": "instrument-ref-2026-001",
+      "ref_type": "NETWORK_TOKEN",
+      "ref_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "issuer_id": "aft:issuer:processor-example",
+      "status": "ACTIVE"
+    }
+  ],
+  "wallet_refs": [
+    {
+      "wallet_id": "wallet-ref-001",
+      "wallet_type": "EVM",
+      "address_ref": "hash:wallet-address-commitment-001",
+      "custody_model": "POLICY_CONTROLLED",
+      "limits_ref": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    }
+  ],
+  "credential_refs": [
+    {
+      "credential_id": "vc-agent-operator-2026-001",
+      "issuer_id": "aft:issuer:acme-identity",
+      "credential_hash": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+      "schema_ref": "https://aftprotocol.org/schemas/draft/0.1/aft-credential-ref.schema.json",
+      "status": "ACTIVE",
+      "expires_at": "2027-05-04T00:00:00Z"
+    }
+  ],
+  "risk_status": "NORMAL",
+  "lifecycle_status": "ACTIVE",
+  "public_keys": [
+    {
+      "kid": "aft-key-search-buyer-ml-dsa-v1",
+      "alg": "aft-sig-ml-dsa",
+      "key_version": 1,
+      "verification_method": "did:web:agents.example:search-buyer-001#ml-dsa-v1",
+      "public_key_ref": "https://agents.example/.well-known/aft/search-buyer-001/keys/ML-DSA-v1",
+      "created_at": "2026-05-04T13:00:00Z",
+      "status": "ACTIVE",
+      "pqc_profile": "AFT-PQC-3"
+    },
+    {
+      "kid": "aft-key-search-buyer-hybrid-v1",
+      "alg": "aft-sig-hybrid-ed25519-ml-dsa",
+      "key_version": 1,
+      "verification_method": "did:web:agents.example:search-buyer-001#hybrid-v1",
+      "public_key_ref": "https://agents.example/.well-known/aft/search-buyer-001/keys/hybrid-v1",
+      "created_at": "2026-05-04T13:00:00Z",
+      "status": "ACTIVE",
+      "pqc_profile": "AFT-PQC-2"
+    }
+  ],
+  "crypto_capabilities": {
+    "signature_profiles": [
+      "aft-sig-ml-dsa",
+      "aft-sig-slh-dsa",
+      "aft-sig-hybrid-ed25519-ml-dsa"
+    ],
+    "kem_profiles": [
+      "aft-kem-ml-kem",
+      "aft-kem-hybrid-ecdh-ml-kem"
+    ],
+    "hash_profiles": [
+      "SHA-256",
+      "SHA-384",
+      "SHA-512"
+    ]
+  },
+  "pqc_readiness": "AFT-PQC-3",
+  "key_rotation": {
+    "current_key_version": 1,
+    "last_rotated_at": "2026-05-04T13:00:00Z",
+    "next_rotation_due_at": "2026-08-04T13:00:00Z",
+    "rotation_policy": "ninety-day scheduled rotation with emergency rotation support",
+    "compromised_kids": []
+  },
+  "revocation": {
+    "status": "NOT_REVOKED",
+    "registry_ref": "aft:revocation-registry:acme-ai:agents",
+    "latest_revocation_root": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+  }
+}

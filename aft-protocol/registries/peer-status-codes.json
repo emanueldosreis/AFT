@@ -1,0 +1,70 @@
+{
+  "registry_name": "peer-status-codes",
+  "version": "0.1",
+  "status": "draft",
+  "entries": [
+    {
+      "code": "active",
+      "name": "Active",
+      "description": "Peer is currently advertising active AFT participation.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "suspended",
+      "name": "Suspended",
+      "description": "Peer is temporarily suspended by its controller or a relevant registry, consortium, or trust framework.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "revoked",
+      "name": "Revoked",
+      "description": "Peer participation or credential status has been revoked and new events SHOULD NOT be accepted without exceptional policy.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "deprecated",
+      "name": "Deprecated",
+      "description": "Peer or capability is being phased out and SHOULD NOT be used for new high-value integrations.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "under_review",
+      "name": "Under Review",
+      "description": "Peer is under review due to incident, dispute, governance, or conformance concerns.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "compromised",
+      "name": "Compromised",
+      "description": "Peer key, endpoint, identity, or operational control is suspected or confirmed compromised.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "unknown",
+      "name": "Unknown",
+      "description": "Peer status is unknown or cannot currently be verified.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    }
+  ]
+}

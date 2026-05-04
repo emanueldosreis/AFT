@@ -1,0 +1,32 @@
+{
+  "batch_id": "aft:batch:events-2026-05-04-001",
+  "anchor_type": "EVENT_BATCH",
+  "chain_id": "eip155:11155111",
+  "network": "example-testnet",
+  "batch_root": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+  "previous_batch_root": "sha256:2929292929292929292929292929292929292929292929292929292929292929",
+  "merkle_alg": "AFT-MERKLE-BINARY-SHA256",
+  "hash_alg": "SHA-256",
+  "event_count": 128,
+  "anchored_at": "2026-05-04T13:15:00Z",
+  "transaction_ref": "0xanchortransaction001",
+  "registry_address": "0x000000000000000000000000000000000000aF70",
+  "privacy_statement": "This anchor stores only event batch commitments and no raw financial or private event data.",
+  "crypto": {
+    "canonicalization": "JCS-RFC8785",
+    "digest_alg": "SHA-256",
+    "anchor_hash": "sha256:3030303030303030303030303030303030303030303030303030303030303030",
+    "pqc_profile": "AFT-PQC-3"
+  },
+  "signatures": [
+    {
+      "alg": "aft-sig-ml-dsa",
+      "kid": "aft-key-anchor-service-ml-dsa-v1",
+      "key_version": 1,
+      "pqc_profile": "AFT-PQC-3",
+      "signature_value": "MLDSAAnchorSignatureExample001",
+      "signature_created_at": "2026-05-04T13:15:02Z",
+      "verification_method": "did:web:anchor.example#ml-dsa-v1"
+    }
+  ]
+}

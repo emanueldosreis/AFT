@@ -1,0 +1,310 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aftprotocol.org/schemas/draft/0.1/aft-peer-discovery.schema.json",
+  "title": "AFT Peer Discovery Document",
+  "description": "Discovery and capability metadata for a federated AFT peer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "aft_version",
+    "peer_id",
+    "peer_name",
+    "peer_type",
+    "status",
+    "service_endpoints",
+    "supported_event_types",
+    "supported_credentials",
+    "supported_crypto_profiles",
+    "pqc_readiness_level",
+    "anchoring",
+    "conformance",
+    "privacy",
+    "revocation",
+    "created_at",
+    "updated_at",
+    "signatures"
+  ],
+  "properties": {
+    "aft_version": {
+      "type": "string",
+      "pattern": "^0\\.1(\\.\\d+)?$"
+    },
+    "peer_id": {
+      "type": "string",
+      "pattern": "^(did:[a-z0-9]+:.+|aft:peer:[A-Za-z0-9._:-]+)$"
+    },
+    "peer_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "peer_type": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "agent_operator",
+          "principal",
+          "controller",
+          "merchant",
+          "api_provider",
+          "content_provider",
+          "payment_processor",
+          "wallet_provider",
+          "agent_marketplace",
+          "auditor",
+          "security_incident_reporter",
+          "dispute_arbiter",
+          "credit_provider",
+          "insurer",
+          "reputation_provider",
+          "anchor_provider",
+          "registry_maintainer",
+          "conformance_tester",
+          "event_issuer",
+          "event_verifier"
+        ]
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "suspended", "revoked", "deprecated", "under_review", "compromised", "unknown"]
+    },
+    "service_endpoints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["events", "revocation"],
+      "properties": {
+        "events": { "$ref": "#/$defs/httpsUrl" },
+        "credentials": { "$ref": "#/$defs/httpsUrl" },
+        "revocation": { "$ref": "#/$defs/httpsUrl" },
+        "risk": { "$ref": "#/$defs/httpsUrl" },
+        "anchors": { "$ref": "#/$defs/httpsUrl" },
+        "peers": { "$ref": "#/$defs/httpsUrl" },
+        "capabilities": { "$ref": "#/$defs/httpsUrl" },
+        "status": { "$ref": "#/$defs/httpsUrl" },
+        "attestations": { "$ref": "#/$defs/httpsUrl" }
+      }
+    },
+    "supported_event_types": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/eventType" }
+    },
+    "supported_credentials": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z][A-Za-z0-9]{2,80}$"
+      }
+    },
+    "supported_crypto_profiles": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/signatureAlg" }
+    },
+    "pqc_readiness_level": { "$ref": "#/$defs/pqcProfile" },
+    "anchoring": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "supported_ledgers", "anchor_endpoint"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["none", "merkle_batch", "direct_event_hash", "consortium_ledger", "hybrid"]
+        },
+        "supported_ledgers": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9._:-]{1,63}$"
+          }
+        },
+        "anchor_endpoint": { "$ref": "#/$defs/httpsUrl" },
+        "anchor_policy_hash": { "$ref": "#/$defs/hashRef" }
+      }
+    },
+    "conformance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profiles"],
+      "properties": {
+        "profiles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "AFT-Core",
+              "AFT-Identity",
+              "AFT-Events",
+              "AFT-Anchoring",
+              "AFT-Reputation",
+              "AFT-Risk-API",
+              "AFT-PQC-Hybrid",
+              "AFT-PQC-Primary",
+              "AFT-Full",
+              "AFT-Peer",
+              "AFT-Federated-Events",
+              "AFT-Peer-Discovery",
+              "AFT-Multi-Attestation",
+              "AFT-Consortium-Deployment",
+              "AFT-Public-Network"
+            ]
+          }
+        },
+        "test_report_hash": { "$ref": "#/$defs/hashRef" },
+        "test_report_url": { "$ref": "#/$defs/httpsUrl" }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default_disclosure", "pii_on_chain", "evidence_storage"],
+      "properties": {
+        "default_disclosure": {
+          "type": "string",
+          "enum": ["public", "private", "restricted", "hash_only"]
+        },
+        "pii_on_chain": { "type": "boolean", "const": false },
+        "evidence_storage": {
+          "type": "string",
+          "enum": ["encrypted_off_chain", "private_consortium_channel", "holder_retained", "not_supported"]
+        },
+        "privacy_policy_url": { "$ref": "#/$defs/httpsUrl" },
+        "privacy_policy_hash": { "$ref": "#/$defs/hashRef" }
+      }
+    },
+    "revocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["endpoint", "latest_revocation_root"],
+      "properties": {
+        "endpoint": { "$ref": "#/$defs/httpsUrl" },
+        "latest_revocation_root": { "$ref": "#/$defs/hashRef" },
+        "status_list_url": { "$ref": "#/$defs/httpsUrl" }
+      }
+    },
+    "terms": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "terms_url": { "$ref": "#/$defs/httpsUrl" },
+        "terms_hash": { "$ref": "#/$defs/hashRef" },
+        "policy_url": { "$ref": "#/$defs/httpsUrl" },
+        "policy_hash": { "$ref": "#/$defs/hashRef" }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "signatures": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/signature" }
+    }
+  },
+  "$defs": {
+    "httpsUrl": {
+      "type": "string",
+      "pattern": "^https://[^\\s]+$"
+    },
+    "hashRef": {
+      "type": "string",
+      "pattern": "^sha(256|384|512):[A-Fa-f0-9]{64,128}$"
+    },
+    "eventType": {
+      "type": "string",
+      "enum": [
+        "AGENT_PAYMENT_INITIATED",
+        "AGENT_PAYMENT_AUTHORIZED",
+        "AGENT_PAYMENT_SETTLED",
+        "AGENT_PAYMENT_FAILED",
+        "AGENT_PAYMENT_REVERSED",
+        "AGENT_PAYMENT_REFUNDED",
+        "AGENT_PAYMENT_CHARGEBACK_OPENED",
+        "AGENT_PAYMENT_CHARGEBACK_RESOLVED",
+        "AGENT_INVOICE_ISSUED",
+        "AGENT_INVOICE_ACCEPTED",
+        "AGENT_INVOICE_PAID",
+        "AGENT_INVOICE_LATE",
+        "AGENT_INVOICE_DEFAULTED",
+        "AGENT_OBLIGATION_CREATED",
+        "AGENT_OBLIGATION_FULFILLED",
+        "AGENT_OBLIGATION_BREACHED",
+        "AGENT_ESCROW_FUNDED",
+        "AGENT_ESCROW_RELEASED",
+        "AGENT_ESCROW_DISPUTED",
+        "AGENT_ESCROW_REFUNDED",
+        "AGENT_ESCROW_ARBITRATED",
+        "AGENT_CREDIT_LINE_ISSUED",
+        "AGENT_CREDIT_LIMIT_UPDATED",
+        "AGENT_CREDIT_UTILIZED",
+        "AGENT_CREDIT_REPAID",
+        "AGENT_CREDIT_LATE",
+        "AGENT_CREDIT_DEFAULTED",
+        "AGENT_CREDIT_SUSPENDED",
+        "AGENT_SECURITY_INCIDENT_REPORTED",
+        "AGENT_KEY_COMPROMISE_REPORTED",
+        "AGENT_PROMPT_INJECTION_PAYMENT_ATTEMPT",
+        "AGENT_UNAUTHORIZED_PAYMENT_ATTEMPT",
+        "AGENT_IMPERSONATION_CLAIMED",
+        "AGENT_IMPERSONATION_CONFIRMED",
+        "AGENT_FRAUD_REPORT_FILED",
+        "AGENT_FRAUD_REPORT_VALIDATED",
+        "AGENT_FRAUD_REPORT_REJECTED",
+        "AGENT_POLICY_VIOLATION_RECORDED",
+        "AGENT_REPUTATION_ATTESTED",
+        "AGENT_REPUTATION_ROOT_UPDATED",
+        "AGENT_TRUST_TIER_UPDATED",
+        "AGENT_BOND_STAKED",
+        "AGENT_BOND_SLASHED",
+        "AGENT_CERTIFICATION_ISSUED",
+        "AGENT_CERTIFICATION_REVOKED"
+      ]
+    },
+    "signatureAlg": {
+      "type": "string",
+      "enum": [
+        "aft-sig-ed25519-legacy",
+        "aft-sig-ecdsa-p256-legacy",
+        "aft-sig-ml-dsa",
+        "aft-sig-slh-dsa",
+        "aft-sig-hybrid-ed25519-ml-dsa",
+        "aft-sig-hybrid-ecdsa-ml-dsa"
+      ]
+    },
+    "pqcProfile": {
+      "type": "string",
+      "enum": ["AFT-PQC-0", "AFT-PQC-1", "AFT-PQC-2", "AFT-PQC-3", "AFT-PQC-4", "AFT-PQC-5"]
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "kid",
+        "key_version",
+        "pqc_profile",
+        "signature_value",
+        "verification_method",
+        "signature_created_at"
+      ],
+      "properties": {
+        "alg": { "$ref": "#/$defs/signatureAlg" },
+        "kid": { "type": "string", "minLength": 1 },
+        "key_version": { "type": "integer", "minimum": 1 },
+        "pqc_profile": { "$ref": "#/$defs/pqcProfile" },
+        "signature_value": { "type": "string", "pattern": "^[A-Za-z0-9_-]+={0,2}$" },
+        "verification_method": { "type": "string", "minLength": 1 },
+        "signature_created_at": { "type": "string", "format": "date-time" },
+        "signature_expires_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

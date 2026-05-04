@@ -1,0 +1,133 @@
+{
+  "registry_name": "attestation-types",
+  "version": "0.1",
+  "status": "draft",
+  "entries": [
+    {
+      "code": "payment_settlement",
+      "name": "Payment Settlement",
+      "description": "Attestation that a payment settled or reached a declared finality state.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "service_delivery",
+      "name": "Service Delivery",
+      "description": "Attestation that a service, API response, content access, or agent task was delivered.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "mandate_compliance",
+      "name": "Mandate Compliance",
+      "description": "Attestation that an action complied with a mandate, scope, amount limit, purpose code, and replay controls.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "incident_report",
+      "name": "Incident Report",
+      "description": "Initial signed report of a security, fraud, scam, policy, or impersonation incident.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "incident_validation",
+      "name": "Incident Validation",
+      "description": "Attestation validating, rejecting, updating, or resolving a prior incident report.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "fraud_report",
+      "name": "Fraud Report",
+      "description": "Initial fraud allegation or fraud-related report.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "fraud_validation",
+      "name": "Fraud Validation",
+      "description": "Attestation validating or rejecting a fraud report after review.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "dispute_opening",
+      "name": "Dispute Opening",
+      "description": "Attestation that a dispute was opened against an event, obligation, payment, or credential.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "dispute_outcome",
+      "name": "Dispute Outcome",
+      "description": "Attestation of dispute resolution, rejection, withdrawal, or supersession.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "reputation_snapshot",
+      "name": "Reputation Snapshot",
+      "description": "Attestation of contextual reputation or risk metrics for a defined evidence set and time window.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "creditworthiness",
+      "name": "Creditworthiness",
+      "description": "Attestation about credit reliability, repayment history, credit facility status, or credit policy eligibility.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "pqc_readiness",
+      "name": "PQC Readiness",
+      "description": "Attestation about post-quantum cryptography support, rotation, revocation, and recovery readiness.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "certification",
+      "name": "Certification",
+      "description": "Attestation that an agent, peer, or implementation meets a stated certification or conformance scope.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "revocation",
+      "name": "Revocation",
+      "description": "Attestation revoking or suspending a credential, peer status, key, mandate, or certification.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    }
+  ]
+}

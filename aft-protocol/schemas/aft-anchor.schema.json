@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aftprotocol.org/schemas/draft/0.1/aft-anchor.schema.json",
+  "title": "AFT Anchor",
+  "description": "Blockchain-neutral anchor for AFT event batches, roots, revocations, disputes, and reputation commitments.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["batch_id", "anchor_type", "chain_id", "network", "batch_root", "merkle_alg", "hash_alg", "event_count", "anchored_at", "privacy_statement", "crypto", "signatures"],
+  "properties": {
+    "batch_id": { "type": "string", "pattern": "^aft:batch:[A-Za-z0-9._:-]+$" },
+    "anchor_type": { "type": "string", "enum": ["EVENT_BATCH", "REVOCATION_ROOT", "REPUTATION_ROOT", "DISPUTE_COMMITMENT", "CREDENTIAL_HASH", "BOND_STATE"] },
+    "chain_id": { "type": "string", "minLength": 1 },
+    "network": { "type": "string", "minLength": 1 },
+    "batch_root": { "$ref": "#/$defs/hashRef" },
+    "previous_batch_root": { "$ref": "#/$defs/hashRef" },
+    "merkle_alg": { "type": "string", "enum": ["AFT-MERKLE-BINARY-SHA256", "AFT-MERKLE-BINARY-SHA384", "AFT-MERKLE-BINARY-SHA512"] },
+    "hash_alg": { "type": "string", "enum": ["SHA-256", "SHA-384", "SHA-512"] },
+    "event_count": { "type": "integer", "minimum": 1 },
+    "anchored_at": { "type": "string", "format": "date-time" },
+    "transaction_ref": { "type": "string", "minLength": 1 },
+    "registry_address": { "type": "string", "minLength": 1 },
+    "privacy_statement": { "type": "string", "minLength": 1 },
+    "crypto": { "$ref": "#/$defs/crypto" },
+    "signatures": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/signature" }
+    }
+  },
+  "$defs": {
+    "hashRef": { "type": "string", "pattern": "^sha(256|384|512):[A-Fa-f0-9]{64,128}$" },
+    "crypto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonicalization", "digest_alg", "anchor_hash", "pqc_profile"],
+      "properties": {
+        "canonicalization": { "type": "string", "enum": ["JCS-RFC8785", "AFT-JCS-DRAFT-0.1"] },
+        "digest_alg": { "type": "string", "enum": ["SHA-256", "SHA-384", "SHA-512"] },
+        "anchor_hash": { "$ref": "#/$defs/hashRef" },
+        "pqc_profile": { "$ref": "#/$defs/pqcProfile" }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "kid", "key_version", "pqc_profile", "signature_value", "signature_created_at", "verification_method"],
+      "properties": {
+        "alg": { "$ref": "#/$defs/signatureAlg" },
+        "kid": { "type": "string", "minLength": 1 },
+        "key_version": { "type": "integer", "minimum": 1 },
+        "pqc_profile": { "$ref": "#/$defs/pqcProfile" },
+        "signature_value": { "type": "string", "pattern": "^[A-Za-z0-9_-]+={0,2}$" },
+        "signature_created_at": { "type": "string", "format": "date-time" },
+        "signature_expires_at": { "type": "string", "format": "date-time" },
+        "verification_method": { "type": "string", "minLength": 1 }
+      }
+    },
+    "signatureAlg": {
+      "type": "string",
+      "enum": ["aft-sig-ed25519-legacy", "aft-sig-ecdsa-p256-legacy", "aft-sig-ml-dsa", "aft-sig-slh-dsa", "aft-sig-hybrid-ed25519-ml-dsa", "aft-sig-hybrid-ecdsa-ml-dsa"]
+    },
+    "pqcProfile": {
+      "type": "string",
+      "enum": ["AFT-PQC-0", "AFT-PQC-1", "AFT-PQC-2", "AFT-PQC-3", "AFT-PQC-4", "AFT-PQC-5"]
+    }
+  }
+}

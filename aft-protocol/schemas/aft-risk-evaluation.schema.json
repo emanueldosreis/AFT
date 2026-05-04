@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aftprotocol.org/schemas/draft/0.1/aft-risk-evaluation.schema.json",
+  "title": "AFT Risk Evaluation",
+  "description": "Request and response structures for evaluating agent financial risk.",
+  "oneOf": [
+    { "$ref": "#/$defs/RiskEvaluationRequest" },
+    { "$ref": "#/$defs/RiskEvaluationResponse" }
+  ],
+  "$defs": {
+    "RiskEvaluationRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_id", "request_time", "requester_id", "agent_id", "action", "amount", "counterparty_id", "mandate_ref", "evidence_refs", "privacy"],
+      "properties": {
+        "request_id": { "type": "string", "pattern": "^aft:risk-request:[A-Za-z0-9._:-]+$" },
+        "request_time": { "type": "string", "format": "date-time" },
+        "requester_id": { "$ref": "#/$defs/entityId" },
+        "agent_id": { "$ref": "#/$defs/agentId" },
+        "action": { "type": "string", "enum": ["PAY", "PROCURE", "EXTEND_CREDIT", "RELEASE_ESCROW", "HIRE_AGENT", "ACCESS_PAID_RESOURCE"] },
+        "amount": { "$ref": "#/$defs/amount" },
+        "counterparty_id": { "$ref": "#/$defs/entityId" },
+        "mandate_ref": { "type": "string", "pattern": "^aft:mandate:[A-Za-z0-9._:-]+$" },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/hashRef" }
+        },
+        "privacy": { "$ref": "#/$defs/privacy" }
+      }
+    },
+    "RiskEvaluationResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["response_id", "request_id", "evaluated_at", "decision", "risk_score", "confidence", "reason_codes", "policy_actions", "evidence_refs", "crypto", "signatures"],
+      "properties": {
+        "response_id": { "type": "string", "pattern": "^aft:risk-response:[A-Za-z0-9._:-]+$" },
+        "request_id": { "type": "string", "pattern": "^aft:risk-request:[A-Za-z0-9._:-]+$" },
+        "evaluated_at": { "type": "string", "format": "date-time" },
+        "decision": { "type": "string", "enum": ["APPROVE", "APPROVE_WITH_LIMITS", "CHALLENGE", "ESCALATE", "REJECT"] },
+        "risk_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "reason_codes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "policy_actions": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["ALLOW", "LIMIT_AMOUNT", "REQUIRE_HUMAN_CONFIRMATION", "REQUIRE_ESCROW", "REQUIRE_ADDITIONAL_CREDENTIAL", "DENY"] }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/hashRef" }
+        },
+        "crypto": { "$ref": "#/$defs/crypto" },
+        "signatures": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/signature" }
+        }
+      }
+    },
+    "agentId": { "type": "string", "pattern": "^aft:agent:[A-Za-z0-9._:-]+$" },
+    "entityId": {
+      "type": "string",
+      "pattern": "^(aft:(principal|owner|operator|controller|counterparty|issuer|lender|arbitrator|processor):[A-Za-z0-9._:-]+|did:[a-z0-9]+:.+)$"
+    },
+    "hashRef": { "type": "string", "pattern": "^sha(256|384|512):[A-Fa-f0-9]{64,128}$" },
+    "amount": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "currency"],
+      "properties": {
+        "value": { "type": "string", "pattern": "^[0-9]+(\\.[0-9]{1,18})?$" },
+        "currency": { "type": "string", "pattern": "^[A-Z0-9]{3,12}$" }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification", "pii_present", "retention_policy"],
+      "properties": {
+        "classification": { "type": "string", "enum": ["PUBLIC", "PRIVATE", "RESTRICTED", "HASH_ONLY"] },
+        "pii_present": { "type": "boolean" },
+        "retention_policy": { "type": "string", "minLength": 1 }
+      }
+    },
+    "crypto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonicalization", "digest_alg", "object_hash", "pqc_profile"],
+      "properties": {
+        "canonicalization": { "type": "string", "enum": ["JCS-RFC8785", "AFT-JCS-DRAFT-0.1"] },
+        "digest_alg": { "type": "string", "enum": ["SHA-256", "SHA-384", "SHA-512"] },
+        "object_hash": { "$ref": "#/$defs/hashRef" },
+        "pqc_profile": { "$ref": "#/$defs/pqcProfile" }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "kid", "key_version", "pqc_profile", "signature_value", "signature_created_at", "verification_method"],
+      "properties": {
+        "alg": { "$ref": "#/$defs/signatureAlg" },
+        "kid": { "type": "string", "minLength": 1 },
+        "key_version": { "type": "integer", "minimum": 1 },
+        "pqc_profile": { "$ref": "#/$defs/pqcProfile" },
+        "signature_value": { "type": "string", "pattern": "^[A-Za-z0-9_-]+={0,2}$" },
+        "signature_created_at": { "type": "string", "format": "date-time" },
+        "signature_expires_at": { "type": "string", "format": "date-time" },
+        "verification_method": { "type": "string", "minLength": 1 }
+      }
+    },
+    "signatureAlg": {
+      "type": "string",
+      "enum": ["aft-sig-ed25519-legacy", "aft-sig-ecdsa-p256-legacy", "aft-sig-ml-dsa", "aft-sig-slh-dsa", "aft-sig-hybrid-ed25519-ml-dsa", "aft-sig-hybrid-ecdsa-ml-dsa"]
+    },
+    "pqcProfile": {
+      "type": "string",
+      "enum": ["AFT-PQC-0", "AFT-PQC-1", "AFT-PQC-2", "AFT-PQC-3", "AFT-PQC-4", "AFT-PQC-5"]
+    }
+  }
+}

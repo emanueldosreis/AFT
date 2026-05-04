@@ -1,0 +1,775 @@
+openapi: 3.1.0
+info:
+  title: AFT Reference API
+  version: 0.1.0
+  summary: Reference API for the Agent Financial Trust Protocol draft.
+  description: >
+    Illustrative OpenAPI 3.1 API for AFT agents, events, peers, attestations,
+    risk, reputation, anchors, disputes, incidents, and cryptographic
+    verification. This API is not production-ready and does not define legal,
+    regulatory, or payment settlement behavior.
+servers:
+  - url: https://api.example.aftprotocol.org
+    description: Example server
+security:
+  - bearerAuth: []
+tags:
+  - name: Discovery
+  - name: Peers
+  - name: Agents
+  - name: Events
+  - name: Attestations
+  - name: Risk
+  - name: Reputation
+  - name: Anchors
+  - name: Disputes
+  - name: Incidents
+  - name: Crypto
+paths:
+  /.well-known/aft-agent-trust:
+    get:
+      tags: [Discovery]
+      operationId: getWellKnownAftAgentTrust
+      summary: Fetch the AFT peer discovery document for this origin.
+      security: []
+      responses:
+        "200":
+          description: AFT peer discovery document.
+          content:
+            application/aft-peer-discovery+json:
+              schema:
+                $ref: "../schemas/aft-peer-discovery.schema.json"
+            application/json:
+              schema:
+                $ref: "../schemas/aft-peer-discovery.schema.json"
+  /v1/peers/register:
+    post:
+      tags: [Peers]
+      operationId: registerPeer
+      summary: Register or submit a peer discovery document.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/aft-peer-discovery.schema.json"
+      responses:
+        "201":
+          description: Peer registration accepted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AcceptedObject"
+  /v1/peers/{peer_id}:
+    get:
+      tags: [Peers]
+      operationId: getPeer
+      summary: Fetch a peer discovery document by peer identifier.
+      parameters:
+        - $ref: "#/components/parameters/PeerId"
+      responses:
+        "200":
+          description: Peer discovery document.
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/aft-peer-discovery.schema.json"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /v1/peers/{peer_id}/capabilities:
+    get:
+      tags: [Peers]
+      operationId: getPeerCapabilities
+      summary: Fetch declared peer capabilities.
+      parameters:
+        - $ref: "#/components/parameters/PeerId"
+      responses:
+        "200":
+          description: Peer capabilities.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PeerCapabilities"
+  /v1/peers/{peer_id}/status:
+    get:
+      tags: [Peers]
+      operationId: getPeerStatus
+      summary: Fetch peer status and revocation metadata.
+      parameters:
+        - $ref: "#/components/parameters/PeerId"
+      responses:
+        "200":
+          description: Peer status.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PeerStatus"
+  /v1/agents/register:
+    post:
+      tags: [Agents]
+      operationId: registerAgent
+      summary: Register or submit an AFT agent financial profile.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/aft-agent-profile.schema.json"
+      responses:
+        "201":
+          description: Agent profile accepted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AcceptedObject"
+  /v1/agents/{agent_id}:
+    get:
+      tags: [Agents]
+      operationId: getAgent
+      summary: Fetch an AFT agent financial profile.
+      parameters:
+        - $ref: "#/components/parameters/AgentId"
+      responses:
+        "200":
+          description: Agent profile.
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/aft-agent-profile.schema.json"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /v1/events:
+    post:
+      tags: [Events]
+      operationId: createEvent
+      summary: Submit a signed AFT event envelope.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/aft-event.schema.json"
+      responses:
+        "202":
+          description: Event accepted for verification or publication.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AcceptedObject"
+  /v1/events/{event_id}:
+    get:
+      tags: [Events]
+      operationId: getEvent
+      summary: Fetch an AFT event or authorized event view.
+      parameters:
+        - $ref: "#/components/parameters/EventId"
+      responses:
+        "200":
+          description: AFT event envelope.
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/aft-event.schema.json"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /v1/attestations:
+    post:
+      tags: [Attestations]
+      operationId: createAttestation
+      summary: Submit a signed federated attestation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Attestation"
+      responses:
+        "202":
+          description: Attestation accepted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AcceptedObject"
+    get:
+      tags: [Attestations]
+      operationId: listAttestations
+      summary: Query attestations by subject identifier.
+      parameters:
+        - name: subject_id
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Matching attestations.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [attestations]
+                properties:
+                  attestations:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Attestation"
+  /v1/attestations/{attestation_id}:
+    get:
+      tags: [Attestations]
+      operationId: getAttestation
+      summary: Fetch a signed attestation.
+      parameters:
+        - $ref: "#/components/parameters/AttestationId"
+      responses:
+        "200":
+          description: Attestation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Attestation"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /v1/attestations/{attestation_id}/challenge:
+    post:
+      tags: [Attestations]
+      operationId: challengeAttestation
+      summary: Challenge an attestation.
+      parameters:
+        - $ref: "#/components/parameters/AttestationId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AttestationChallenge"
+      responses:
+        "202":
+          description: Challenge accepted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AcceptedObject"
+  /v1/attestations/{attestation_id}/supersede:
+    post:
+      tags: [Attestations]
+      operationId: supersedeAttestation
+      summary: Submit a supersession for an attestation.
+      parameters:
+        - $ref: "#/components/parameters/AttestationId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AttestationSupersession"
+      responses:
+        "202":
+          description: Supersession accepted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AcceptedObject"
+  /v1/risk/evaluate:
+    post:
+      tags: [Risk]
+      operationId: evaluateRisk
+      summary: Evaluate financial risk for an agent action.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/aft-risk-evaluation.schema.json#/$defs/RiskEvaluationRequest"
+      responses:
+        "200":
+          description: Risk evaluation response.
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/aft-risk-evaluation.schema.json#/$defs/RiskEvaluationResponse"
+  /v1/reputation/{agent_id}:
+    get:
+      tags: [Reputation]
+      operationId: getReputation
+      summary: Fetch a contextual reputation snapshot for an agent.
+      parameters:
+        - $ref: "#/components/parameters/AgentId"
+      responses:
+        "200":
+          description: Reputation snapshot.
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/aft-reputation.schema.json"
+  /v1/anchors:
+    post:
+      tags: [Anchors]
+      operationId: createAnchor
+      summary: Submit an AFT anchor commitment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/aft-anchor.schema.json"
+      responses:
+        "202":
+          description: Anchor accepted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AcceptedObject"
+  /v1/anchors/{batch_id}:
+    get:
+      tags: [Anchors]
+      operationId: getAnchor
+      summary: Fetch an AFT anchor by batch identifier.
+      parameters:
+        - $ref: "#/components/parameters/BatchId"
+      responses:
+        "200":
+          description: Anchor record.
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/aft-anchor.schema.json"
+  /v1/disputes:
+    post:
+      tags: [Disputes]
+      operationId: createDispute
+      summary: Open or submit an AFT dispute record.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/aft-dispute.schema.json"
+      responses:
+        "201":
+          description: Dispute created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AcceptedObject"
+  /v1/disputes/{dispute_id}:
+    get:
+      tags: [Disputes]
+      operationId: getDispute
+      summary: Fetch a dispute record or authorized dispute view.
+      parameters:
+        - $ref: "#/components/parameters/DisputeId"
+      responses:
+        "200":
+          description: Dispute record.
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/aft-dispute.schema.json"
+  /v1/incidents:
+    post:
+      tags: [Incidents]
+      operationId: createIncident
+      summary: Submit a security, fraud, scam, or policy incident record.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/aft-incident.schema.json"
+      responses:
+        "201":
+          description: Incident created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AcceptedObject"
+  /v1/incidents/{incident_id}:
+    get:
+      tags: [Incidents]
+      operationId: getIncident
+      summary: Fetch an incident record or authorized incident view.
+      parameters:
+        - $ref: "#/components/parameters/IncidentId"
+      responses:
+        "200":
+          description: Incident record.
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/aft-incident.schema.json"
+  /v1/crypto/verify-signature:
+    post:
+      tags: [Crypto]
+      operationId: verifySignature
+      summary: Verify an AFT signature over a declared payload digest.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerifySignatureRequest"
+      responses:
+        "200":
+          description: Signature verification result.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerifySignatureResponse"
+  /v1/crypto/profiles:
+    get:
+      tags: [Crypto]
+      operationId: listCryptoProfiles
+      summary: List supported AFT cryptographic profiles.
+      responses:
+        "200":
+          description: Supported profiles.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [profiles]
+                properties:
+                  profiles:
+                    type: array
+                    items:
+                      type: string
+  /v1/registries/{registry_name}:
+    get:
+      tags: [Discovery]
+      operationId: getRegistry
+      summary: Fetch an AFT registry.
+      parameters:
+        - name: registry_name
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - peer-types
+              - network-deployment-modes
+              - attestation-types
+              - peer-status-codes
+              - event-types
+              - cryptographic-algorithms
+      responses:
+        "200":
+          description: Registry document.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Registry"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    PeerId:
+      name: peer_id
+      in: path
+      required: true
+      schema:
+        type: string
+    AgentId:
+      name: agent_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: "^aft:agent:[A-Za-z0-9._:-]+$"
+    EventId:
+      name: event_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: "^aft:event:[A-Za-z0-9._:-]+$"
+    BatchId:
+      name: batch_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: "^aft:batch:[A-Za-z0-9._:-]+$"
+    DisputeId:
+      name: dispute_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: "^aft:dispute:[A-Za-z0-9._:-]+$"
+    IncidentId:
+      name: incident_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: "^aft:incident:[A-Za-z0-9._:-]+$"
+    AttestationId:
+      name: attestation_id
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: "^aft:attestation:[A-Za-z0-9._:-]+$"
+  responses:
+    NotFound:
+      description: Requested resource was not found or is not visible to the caller.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  schemas:
+    HashRef:
+      type: string
+      pattern: "^sha(256|384|512):[A-Fa-f0-9]{64,128}$"
+    Signature:
+      type: object
+      additionalProperties: false
+      required: [alg, kid, key_version, pqc_profile, signature_value, verification_method, signature_created_at]
+      properties:
+        alg:
+          type: string
+        kid:
+          type: string
+        key_version:
+          type: integer
+          minimum: 1
+        pqc_profile:
+          type: string
+          enum: [AFT-PQC-0, AFT-PQC-1, AFT-PQC-2, AFT-PQC-3, AFT-PQC-4, AFT-PQC-5]
+        signature_value:
+          type: string
+        verification_method:
+          type: string
+        signature_created_at:
+          type: string
+          format: date-time
+    AcceptedObject:
+      type: object
+      additionalProperties: false
+      required: [status, accepted_at]
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum: [ACCEPTED, REJECTED, PENDING_VERIFICATION, PENDING_REVIEW]
+        accepted_at:
+          type: string
+          format: date-time
+        object_hash:
+          $ref: "#/components/schemas/HashRef"
+    PeerCapabilities:
+      type: object
+      additionalProperties: false
+      required: [peer_id, supported_event_types, supported_credentials, supported_crypto_profiles, conformance]
+      properties:
+        peer_id:
+          type: string
+        supported_event_types:
+          type: array
+          items:
+            type: string
+        supported_credentials:
+          type: array
+          items:
+            type: string
+        supported_crypto_profiles:
+          type: array
+          items:
+            type: string
+        conformance:
+          type: array
+          items:
+            type: string
+    PeerStatus:
+      type: object
+      additionalProperties: false
+      required: [peer_id, status, checked_at]
+      properties:
+        peer_id:
+          type: string
+        status:
+          type: string
+          enum: [active, suspended, revoked, deprecated, under_review, compromised, unknown]
+        checked_at:
+          type: string
+          format: date-time
+        latest_revocation_root:
+          $ref: "#/components/schemas/HashRef"
+        reason:
+          type: string
+    Attestation:
+      type: object
+      additionalProperties: false
+      required: [attestation_id, attestation_type, issuer_peer_id, subject_id, event_hash, evidence_hashes, signature]
+      properties:
+        attestation_id:
+          type: string
+          pattern: "^aft:attestation:[A-Za-z0-9._:-]+$"
+        attestation_type:
+          type: string
+          enum:
+            - payment_settlement
+            - service_delivery
+            - mandate_compliance
+            - incident_report
+            - incident_validation
+            - fraud_report
+            - fraud_validation
+            - dispute_opening
+            - dispute_outcome
+            - reputation_snapshot
+            - creditworthiness
+            - pqc_readiness
+            - certification
+            - revocation
+        issuer_peer_id:
+          type: string
+        subject_id:
+          type: string
+        event_type:
+          type: string
+        event_hash:
+          $ref: "#/components/schemas/HashRef"
+        evidence_hashes:
+          type: array
+          items:
+            $ref: "#/components/schemas/HashRef"
+        anchor:
+          type: object
+          additionalProperties: false
+          properties:
+            batch_id:
+              type: string
+            ledger:
+              type: string
+            batch_root:
+              $ref: "#/components/schemas/HashRef"
+            transaction_ref:
+              type: string
+        signature:
+          $ref: "#/components/schemas/Signature"
+    AttestationChallenge:
+      type: object
+      additionalProperties: false
+      required: [challenge_id, challenger_peer_id, reason_code, challenged_at, evidence_hashes, signature]
+      properties:
+        challenge_id:
+          type: string
+        challenger_peer_id:
+          type: string
+        reason_code:
+          type: string
+        challenged_at:
+          type: string
+          format: date-time
+        evidence_hashes:
+          type: array
+          items:
+            $ref: "#/components/schemas/HashRef"
+        signature:
+          $ref: "#/components/schemas/Signature"
+    AttestationSupersession:
+      type: object
+      additionalProperties: false
+      required: [supersession_id, issuer_peer_id, supersedes_attestation_id, reason_code, superseded_at, replacement_hash, signature]
+      properties:
+        supersession_id:
+          type: string
+        issuer_peer_id:
+          type: string
+        supersedes_attestation_id:
+          type: string
+        reason_code:
+          type: string
+        superseded_at:
+          type: string
+          format: date-time
+        replacement_hash:
+          $ref: "#/components/schemas/HashRef"
+        signature:
+          $ref: "#/components/schemas/Signature"
+    VerifySignatureRequest:
+      type: object
+      additionalProperties: false
+      required: [payload_hash, alg, kid, key_version, pqc_profile, signature_value, verification_method]
+      properties:
+        payload_hash:
+          $ref: "#/components/schemas/HashRef"
+        alg:
+          type: string
+        kid:
+          type: string
+        key_version:
+          type: integer
+        pqc_profile:
+          type: string
+        signature_value:
+          type: string
+        verification_method:
+          type: string
+    VerifySignatureResponse:
+      type: object
+      additionalProperties: false
+      required: [valid, checked_at, key_status]
+      properties:
+        valid:
+          type: boolean
+        checked_at:
+          type: string
+          format: date-time
+        key_status:
+          type: string
+          enum: [ACTIVE, SUSPENDED, REVOKED, EXPIRED, UNKNOWN]
+        reason:
+          type: string
+    Registry:
+      type: object
+      additionalProperties: false
+      required: [registry_name, version, status, entries]
+      properties:
+        registry_name:
+          type: string
+        version:
+          type: string
+        status:
+          type: string
+        entries:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required: [code, name, description, status, since_version, deprecated, replacement_code]
+            properties:
+              code:
+                type: string
+              name:
+                type: string
+              description:
+                type: string
+              status:
+                type: string
+              since_version:
+                type: string
+              deprecated:
+                type: boolean
+              replacement_code:
+                type:
+                  - string
+                  - "null"
+    Error:
+      type: object
+      additionalProperties: false
+      required: [error, message]
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        correlation_id:
+          type: string

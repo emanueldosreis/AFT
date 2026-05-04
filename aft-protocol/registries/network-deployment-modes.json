@@ -1,0 +1,43 @@
+{
+  "registry_name": "network-deployment-modes",
+  "version": "0.1",
+  "status": "draft",
+  "entries": [
+    {
+      "code": "public_open",
+      "name": "Public Open",
+      "description": "Open deployment with public discovery, public or semi-public commitments, and permissionless or broadly accessible peer participation.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "consortium_permissioned",
+      "name": "Consortium Permissioned",
+      "description": "Deployment governed by a known consortium with permissioned validators, endorsers, or accepted peer membership.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "private_enterprise",
+      "name": "Private Enterprise",
+      "description": "Single-enterprise or private network deployment using AFT schemas and proofs internally or with selected counterparties.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    },
+    {
+      "code": "hybrid",
+      "name": "Hybrid",
+      "description": "Deployment combining public anchors, private evidence channels, and permissioned participant governance.",
+      "status": "active",
+      "since_version": "0.1",
+      "deprecated": false,
+      "replacement_code": null
+    }
+  ]
+}

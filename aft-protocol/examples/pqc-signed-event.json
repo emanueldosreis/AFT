@@ -1,0 +1,88 @@
+{
+  "event_id": "aft:event:pqc-payment-settled-2026-05-04-001",
+  "aft_event_version": "0.1",
+  "event_type": "AGENT_PAYMENT_SETTLED",
+  "event_time": "2026-05-04T18:00:00Z",
+  "agent_id": "aft:agent:search-buyer-001",
+  "principal_id": "aft:principal:acme-corp",
+  "operator_id": "aft:operator:acme-runtime",
+  "counterparty_id": "aft:counterparty:model-api-example",
+  "transaction": {
+    "transaction_id": "pqc-payment-001",
+    "transaction_type": "PAYMENT",
+    "status": "SETTLED",
+    "amount": {
+      "value": "2.50",
+      "currency": "USD"
+    },
+    "asset_type": "FIAT",
+    "payment_protocol": "OTHER",
+    "rail_ref": "processor-reference",
+    "settlement_id": "settlement-pqc-001",
+    "purpose_code": "MODEL_API_USAGE"
+  },
+  "authority": {
+    "mandate_id": "aft:mandate:model-api-budget-2026-05",
+    "mandate_type": "AUTONOMOUS_BUDGET",
+    "mandate_hash": "sha256:3131313131313131313131313131313131313131313131313131313131313131",
+    "principal_id": "aft:principal:acme-corp",
+    "agent_id": "aft:agent:search-buyer-001",
+    "authorized": true,
+    "scope": [
+      "model-api.usage"
+    ],
+    "amount_limit": {
+      "value": "500.00",
+      "currency": "USD"
+    },
+    "expires_at": "2026-06-01T00:00:00Z",
+    "nonce": "pqcnonce001",
+    "policy_ref": "policy:acme:model-api-budget:v1"
+  },
+  "evidence": {
+    "evidence_type": "RECEIPT",
+    "evidence_hashes": [
+      "sha256:3232323232323232323232323232323232323232323232323232323232323232"
+    ],
+    "evidence_uri": "urn:aft:evidence:pqc-signed-event-001",
+    "receipt_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "redaction_status": "SELECTIVE_DISCLOSURE"
+  },
+  "privacy": {
+    "classification": "PRIVATE",
+    "pii_present": false,
+    "on_chain_disclosure": [
+      "EVENT_HASH",
+      "MERKLE_ROOT"
+    ],
+    "selective_disclosure": true,
+    "retention_policy": "private event body retained for 12 months"
+  },
+  "crypto": {
+    "canonicalization": "JCS-RFC8785",
+    "digest_alg": "SHA-512",
+    "event_hash": "sha512:34343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434343434",
+    "pqc_profile": "AFT-PQC-4",
+    "signature_input": "AFT-EVENT-DRAFT-0.1:event-without-signature-values"
+  },
+  "signatures": [
+    {
+      "alg": "aft-sig-ml-dsa",
+      "kid": "aft-key-search-buyer-ml-dsa-v1",
+      "key_version": 1,
+      "pqc_profile": "AFT-PQC-4",
+      "signature_value": "MLDSAPrimarySignatureExample001",
+      "signature_created_at": "2026-05-04T18:00:01Z",
+      "verification_method": "did:web:agents.example:search-buyer-001#ml-dsa-v1"
+    },
+    {
+      "alg": "aft-sig-slh-dsa",
+      "kid": "aft-key-search-buyer-slh-dsa-v1",
+      "key_version": 1,
+      "pqc_profile": "AFT-PQC-4",
+      "signature_value": "SLHDSABackupSignatureExample001",
+      "signature_created_at": "2026-05-04T18:00:03Z",
+      "verification_method": "did:web:agents.example:search-buyer-001#slh-dsa-v1"
+    }
+  ]
+}

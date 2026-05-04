@@ -1,0 +1,117 @@
+{
+  "scenario_id": "aft:scenario:federated-payment-2026-05-04-001",
+  "description": "Federated attestations for one agent purchase, showing payment settlement, service delivery, mandate compliance, and reputation-root update from independent peers.",
+  "subject_agent_id": "aft:agent:procurement-agent-009",
+  "transaction_ref": "aft:txn:federated-payment-001",
+  "attestations": [
+    {
+      "attestation_id": "aft:attestation:payment-settlement-001",
+      "attestation_type": "payment_settlement",
+      "issuer_peer_id": "did:web:payments.example",
+      "subject_id": "aft:txn:federated-payment-001",
+      "event_type": "AGENT_PAYMENT_SETTLED",
+      "event_hash": "sha256:6161616161616161616161616161616161616161616161616161616161616161",
+      "evidence_hashes": [
+        "sha256:6262626262626262626262626262626262626262626262626262626262626262"
+      ],
+      "anchor": {
+        "batch_id": "aft:batch:payments-peer-2026-05-04-001",
+        "ledger": "base",
+        "batch_root": "sha256:6363636363636363636363636363636363636363636363636363636363636363",
+        "transaction_ref": "0xpaymentanchor001"
+      },
+      "signature": {
+        "alg": "aft-sig-hybrid-ed25519-ml-dsa",
+        "kid": "payment-peer-hybrid-v1",
+        "key_version": 1,
+        "pqc_profile": "AFT-PQC-2",
+        "signature_value": "HybridPaymentSettlementAttestationSignature001",
+        "verification_method": "did:web:payments.example#aft-hybrid-v1",
+        "signature_created_at": "2026-05-04T14:00:01Z"
+      }
+    },
+    {
+      "attestation_id": "aft:attestation:service-delivery-001",
+      "attestation_type": "service_delivery",
+      "issuer_peer_id": "did:web:merchant.example",
+      "subject_id": "aft:txn:federated-payment-001",
+      "event_type": "AGENT_OBLIGATION_FULFILLED",
+      "event_hash": "sha256:6464646464646464646464646464646464646464646464646464646464646464",
+      "evidence_hashes": [
+        "sha256:6565656565656565656565656565656565656565656565656565656565656565"
+      ],
+      "anchor": {
+        "batch_id": "aft:batch:merchant-peer-2026-05-04-001",
+        "ledger": "ethereum",
+        "batch_root": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+        "transaction_ref": "0xmerchantanchor001"
+      },
+      "signature": {
+        "alg": "aft-sig-ml-dsa",
+        "kid": "merchant-peer-ml-dsa-v1",
+        "key_version": 1,
+        "pqc_profile": "AFT-PQC-3",
+        "signature_value": "MLDSAServiceDeliveryAttestationSignature001",
+        "verification_method": "did:web:merchant.example#aft-ml-dsa-v1",
+        "signature_created_at": "2026-05-04T14:01:01Z"
+      }
+    },
+    {
+      "attestation_id": "aft:attestation:mandate-compliance-001",
+      "attestation_type": "mandate_compliance",
+      "issuer_peer_id": "did:web:operator.example",
+      "subject_id": "aft:txn:federated-payment-001",
+      "event_type": "AGENT_PAYMENT_AUTHORIZED",
+      "event_hash": "sha256:6767676767676767676767676767676767676767676767676767676767676767",
+      "evidence_hashes": [
+        "sha256:6868686868686868686868686868686868686868686868686868686868686868"
+      ],
+      "anchor": {
+        "batch_id": "aft:batch:operator-peer-2026-05-04-001",
+        "ledger": "hyperledger-fabric",
+        "batch_root": "sha256:6969696969696969696969696969696969696969696969696969696969696969",
+        "transaction_ref": "fabric-channel-a:block-8821:tx-19"
+      },
+      "signature": {
+        "alg": "aft-sig-ml-dsa",
+        "kid": "operator-peer-ml-dsa-v2",
+        "key_version": 2,
+        "pqc_profile": "AFT-PQC-3",
+        "signature_value": "MLDSAMandateComplianceAttestationSignature001",
+        "verification_method": "did:web:operator.example#aft-ml-dsa-v2",
+        "signature_created_at": "2026-05-04T14:02:01Z"
+      }
+    }
+  ],
+  "reputation_update": {
+    "event_id": "aft:event:reputation-root-updated-federated-001",
+    "issuer_peer_id": "did:web:reputation.example",
+    "event_type": "AGENT_REPUTATION_ROOT_UPDATED",
+    "referenced_attestation_hashes": [
+      "sha256:6161616161616161616161616161616161616161616161616161616161616161",
+      "sha256:6464646464646464646464646464646464646464646464646464646464646464",
+      "sha256:6767676767676767676767676767676767676767676767676767676767676767"
+    ],
+    "reputation_root": "sha256:7070707070707070707070707070707070707070707070707070707070707070",
+    "anchor": {
+      "batch_id": "aft:batch:reputation-peer-2026-05-04-001",
+      "ledger": "base",
+      "batch_root": "sha256:7171717171717171717171717171717171717171717171717171717171717171",
+      "transaction_ref": "0xreputationanchor001"
+    },
+    "signature": {
+      "alg": "aft-sig-ml-dsa",
+      "kid": "reputation-peer-ml-dsa-v1",
+      "key_version": 1,
+      "pqc_profile": "AFT-PQC-4",
+      "signature_value": "MLDSAReputationRootUpdateSignature001",
+      "verification_method": "did:web:reputation.example#aft-ml-dsa-v1",
+      "signature_created_at": "2026-05-04T14:10:01Z"
+    }
+  },
+  "privacy": {
+    "classification": "HASH_ONLY",
+    "private_evidence": "Evidence bodies are encrypted off-chain and represented here only by hashes.",
+    "pii_on_chain": false
+  }
+}

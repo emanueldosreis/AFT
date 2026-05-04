@@ -1,0 +1,64 @@
+{
+  "aft_version": "0.1",
+  "peer_id": "did:web:reputation.example",
+  "peer_name": "Example Reputation Provider",
+  "peer_type": ["reputation_provider", "event_issuer", "event_verifier"],
+  "status": "active",
+  "service_endpoints": {
+    "events": "https://reputation.example/aft/v1/events",
+    "credentials": "https://reputation.example/aft/v1/credentials",
+    "revocation": "https://reputation.example/aft/v1/revocations",
+    "risk": "https://reputation.example/aft/v1/risk",
+    "anchors": "https://reputation.example/aft/v1/anchors",
+    "capabilities": "https://reputation.example/.well-known/aft-agent-trust",
+    "attestations": "https://reputation.example/aft/v1/attestations"
+  },
+  "supported_event_types": [
+    "AGENT_REPUTATION_ATTESTED",
+    "AGENT_REPUTATION_ROOT_UPDATED",
+    "AGENT_TRUST_TIER_UPDATED"
+  ],
+  "supported_credentials": [
+    "AgentReputationSnapshotCredential",
+    "AgentTrustTierCredential"
+  ],
+  "supported_crypto_profiles": [
+    "aft-sig-ml-dsa",
+    "aft-sig-slh-dsa"
+  ],
+  "pqc_readiness_level": "AFT-PQC-4",
+  "anchoring": {
+    "mode": "merkle_batch",
+    "supported_ledgers": ["base", "ethereum"],
+    "anchor_endpoint": "https://reputation.example/aft/v1/anchors",
+    "anchor_policy_hash": "sha256:5151515151515151515151515151515151515151515151515151515151515151"
+  },
+  "conformance": {
+    "profiles": ["AFT-Core", "AFT-Reputation", "AFT-Anchoring", "AFT-PQC-Primary", "AFT-Peer-Discovery"],
+    "test_report_hash": "sha256:5252525252525252525252525252525252525252525252525252525252525252"
+  },
+  "privacy": {
+    "default_disclosure": "hash_only",
+    "pii_on_chain": false,
+    "evidence_storage": "encrypted_off_chain",
+    "privacy_policy_url": "https://reputation.example/aft/privacy",
+    "privacy_policy_hash": "sha256:5353535353535353535353535353535353535353535353535353535353535353"
+  },
+  "revocation": {
+    "endpoint": "https://reputation.example/aft/v1/revocations",
+    "latest_revocation_root": "sha256:5454545454545454545454545454545454545454545454545454545454545454"
+  },
+  "created_at": "2026-05-04T13:10:00Z",
+  "updated_at": "2026-05-04T13:40:00Z",
+  "signatures": [
+    {
+      "alg": "aft-sig-ml-dsa",
+      "kid": "reputation-peer-ml-dsa-v1",
+      "key_version": 1,
+      "pqc_profile": "AFT-PQC-4",
+      "signature_value": "MLDSAReputationDiscoverySignatureExample001",
+      "verification_method": "did:web:reputation.example#aft-ml-dsa-v1",
+      "signature_created_at": "2026-05-04T13:40:01Z"
+    }
+  ]
+}

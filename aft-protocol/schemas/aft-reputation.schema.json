@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aftprotocol.org/schemas/draft/0.1/aft-reputation.schema.json",
+  "title": "AFT Reputation Snapshot",
+  "description": "Contextual reputation and credit snapshot for an AFT agent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["snapshot_id", "agent_id", "issuer_id", "period_start", "period_end", "context", "trust_tier", "metrics", "privacy", "crypto", "signatures"],
+  "properties": {
+    "snapshot_id": { "type": "string", "pattern": "^aft:reputation:[A-Za-z0-9._:-]+$" },
+    "agent_id": { "$ref": "#/$defs/agentId" },
+    "issuer_id": { "$ref": "#/$defs/entityId" },
+    "period_start": { "type": "string", "format": "date-time" },
+    "period_end": { "type": "string", "format": "date-time" },
+    "context": { "type": "string", "minLength": 1 },
+    "trust_tier": { "type": "string", "enum": ["AFT-T0", "AFT-T1", "AFT-T2", "AFT-T3", "AFT-T4", "AFT-T5", "AFT-T6"] },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "settlement_reliability",
+        "late_payment_rate",
+        "default_count",
+        "dispute_rate",
+        "dispute_loss_rate",
+        "fraud_validated_count",
+        "security_incident_count",
+        "policy_violation_rate",
+        "mandate_compliance_score",
+        "max_verified_transaction_amount",
+        "credit_utilization",
+        "repayment_reliability",
+        "domain_trust",
+        "principal_trust",
+        "operator_trust",
+        "counterparty_feedback"
+      ],
+      "properties": {
+        "settlement_reliability": { "type": "number", "minimum": 0, "maximum": 1 },
+        "late_payment_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "default_count": { "type": "integer", "minimum": 0 },
+        "dispute_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "dispute_loss_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "fraud_validated_count": { "type": "integer", "minimum": 0 },
+        "security_incident_count": { "type": "integer", "minimum": 0 },
+        "policy_violation_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "mandate_compliance_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "max_verified_transaction_amount": { "$ref": "#/$defs/amount" },
+        "credit_utilization": { "type": "number", "minimum": 0, "maximum": 1 },
+        "repayment_reliability": { "type": "number", "minimum": 0, "maximum": 1 },
+        "domain_trust": { "type": "number", "minimum": 0, "maximum": 1 },
+        "principal_trust": { "type": "number", "minimum": 0, "maximum": 1 },
+        "operator_trust": { "type": "number", "minimum": 0, "maximum": 1 },
+        "counterparty_feedback": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "privacy": { "$ref": "#/$defs/privacy" },
+    "crypto": { "$ref": "#/$defs/crypto" },
+    "signatures": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/signature" }
+    }
+  },
+  "$defs": {
+    "agentId": { "type": "string", "pattern": "^aft:agent:[A-Za-z0-9._:-]+$" },
+    "entityId": {
+      "type": "string",
+      "pattern": "^(aft:(principal|owner|operator|controller|counterparty|issuer|lender|arbitrator|processor):[A-Za-z0-9._:-]+|did:[a-z0-9]+:.+)$"
+    },
+    "hashRef": { "type": "string", "pattern": "^sha(256|384|512):[A-Fa-f0-9]{64,128}$" },
+    "amount": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "currency"],
+      "properties": {
+        "value": { "type": "string", "pattern": "^[0-9]+(\\.[0-9]{1,18})?$" },
+        "currency": { "type": "string", "pattern": "^[A-Z0-9]{3,12}$" }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification", "pii_present", "retention_policy"],
+      "properties": {
+        "classification": { "type": "string", "enum": ["PUBLIC", "PRIVATE", "RESTRICTED", "HASH_ONLY"] },
+        "pii_present": { "type": "boolean" },
+        "retention_policy": { "type": "string", "minLength": 1 }
+      }
+    },
+    "crypto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonicalization", "digest_alg", "snapshot_hash", "reputation_root", "pqc_profile"],
+      "properties": {
+        "canonicalization": { "type": "string", "enum": ["JCS-RFC8785", "AFT-JCS-DRAFT-0.1"] },
+        "digest_alg": { "type": "string", "enum": ["SHA-256", "SHA-384", "SHA-512"] },
+        "snapshot_hash": { "$ref": "#/$defs/hashRef" },
+        "reputation_root": { "$ref": "#/$defs/hashRef" },
+        "pqc_profile": { "$ref": "#/$defs/pqcProfile" }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alg", "kid", "key_version", "pqc_profile", "signature_value", "signature_created_at", "verification_method"],
+      "properties": {
+        "alg": { "$ref": "#/$defs/signatureAlg" },
+        "kid": { "type": "string", "minLength": 1 },
+        "key_version": { "type": "integer", "minimum": 1 },
+        "pqc_profile": { "$ref": "#/$defs/pqcProfile" },
+        "signature_value": { "type": "string", "pattern": "^[A-Za-z0-9_-]+={0,2}$" },
+        "signature_created_at": { "type": "string", "format": "date-time" },
+        "signature_expires_at": { "type": "string", "format": "date-time" },
+        "verification_method": { "type": "string", "minLength": 1 }
+      }
+    },
+    "signatureAlg": {
+      "type": "string",
+      "enum": ["aft-sig-ed25519-legacy", "aft-sig-ecdsa-p256-legacy", "aft-sig-ml-dsa", "aft-sig-slh-dsa", "aft-sig-hybrid-ed25519-ml-dsa", "aft-sig-hybrid-ecdsa-ml-dsa"]
+    },
+    "pqcProfile": {
+      "type": "string",
+      "enum": ["AFT-PQC-0", "AFT-PQC-1", "AFT-PQC-2", "AFT-PQC-3", "AFT-PQC-4", "AFT-PQC-5"]
+    }
+  }
+}
