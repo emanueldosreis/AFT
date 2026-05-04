@@ -1,0 +1,60 @@
+name: Validate JSON
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Parse all JSON files
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const files = [];
+          function walk(dir) {
+            for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+              if (entry.name === '.git' || entry.name === 'node_modules') continue;
+              const full = path.join(dir, entry.name);
+              if (entry.isDirectory()) walk(full);
+              if (entry.isFile() && entry.name.endsWith('.json')) files.push(full);
+            }
+          }
+          walk('.');
+          for (const file of files) JSON.parse(fs.readFileSync(file, 'utf8'));
+          console.log(`Parsed ${files.length} JSON files successfully.`);
+          NODE
+
+      - name: Install npm dependencies if package.json exists
+        run: |
+          if [ -f package.json ]; then
+            npm install
+          else
+            echo "No package.json found; skipping npm install."
+          fi
+
+      - name: Run schema validation script if available
+        run: |
+          if [ -f package.json ] && node -e "const p=require('./package.json'); process.exit(p.scripts && p.scripts['validate:schemas'] ? 0 : 1)"; then
+            npm run validate:schemas
+          else
+            echo "No validate:schemas script configured; skipping."
+          fi
+
+      - name: Run example validation script if available
+        run: |
+          if [ -f package.json ] && node -e "const p=require('./package.json'); process.exit(p.scripts && p.scripts['validate:examples'] ? 0 : 1)"; then
+            npm run validate:examples
+          else
+            echo "No validate:examples script configured; skipping."
+          fi

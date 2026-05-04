@@ -8,6 +8,10 @@ AFT is not a payment rail, wallet, bank, card network, identity provider, or com
 
 > Draft 0.1 is not production financial, legal, security, or compliance advice. The materials in this repository are a protocol proposal for review, experimentation, and interoperability discussion.
 
+Core thesis:
+
+> Agent identity protocols help answer who an agent is. Agent payment protocols help answer whether it can pay. AFT focuses on the next missing layer: should this agent be financially trusted?
+
 ## Why AFT Is Needed
 
 Agentic software will increasingly buy content, consume paid APIs, subscribe to tools, search, hire other agents, execute procurement tasks, receive payments, and operate with delegated financial autonomy. Payment protocols can answer whether a payment can be made. They do not by themselves answer whether an agent should be trusted financially.
@@ -57,7 +61,26 @@ AFT is complementary to existing identity, authorization, payment, and signing s
 - OAuth/OIDC can authorize API access and scope delegated permissions. AFT records financial authority references and whether spending stayed within the authorized scope.
 - SPIFFE/SPIRE can provide workload identity. AFT can reference workload identities and bind them to financial-agent profiles.
 - HTTP Message Signatures can authenticate API requests and receipts. AFT can carry or reference those signatures inside evidence records.
-- Blockchain rails can settle assets or provide public timestamping. AFT uses chains only for commitments, roots, registry pointers, revocation roots, reputation roots, dispute-state commitments, and bond or stake state.
+- Blockchain rails can settle assets or provide public timestamping. AFT uses chains only for hashes, Merkle roots, credential commitments, registry pointers, revocation roots, reputation roots, dispute-state commitments, and bond, stake, or slashing state.
+
+## Quantum-Resistant / Crypto-Agile Design
+
+AFT records are intended to remain verifiable over long time horizons. Draft 0.1 requires crypto-agility: signatures, keys, credentials, anchors, receipts, mandates, and reputation snapshots carry algorithm identifiers, key identifiers, key versions, PQC readiness profiles, verification methods, and revocation metadata.
+
+AFT uses NIST post-quantum terminology:
+
+- ML-KEM / FIPS 203 for quantum-resistant key establishment where encrypted evidence exchange requires it.
+- ML-DSA / FIPS 204 as the primary post-quantum signature family.
+- SLH-DSA / FIPS 205 as a conservative hash-based backup signature family.
+- Hybrid classical + PQC modes during transition.
+
+AFT does not invent new cryptography and does not treat any algorithm as permanently safe.
+
+## Blockchain And Privacy
+
+Blockchain anchoring in AFT is for tamper-evident commitments, not private data publication. AFT may anchor event hashes, Merkle roots, credential commitments, revocation roots, reputation roots, dispute-state commitments, and bond or slashing events.
+
+AFT MUST NOT store raw prompts, responses, PII, card data, bank data, customer names, private merchant data, private evidence, or full logs on-chain.
 
 ## Architecture
 
@@ -109,20 +132,28 @@ AFT standardizes common schemas, cryptographic rules, discovery documents, regis
       Independent reputation and risk providers
 ```
 
-See [AFT-018 Decentralized Trust Network](aft-protocol/specs/AFT-018-decentralized-trust-network.md) and [AFT-019 Peer Discovery And Capabilities](aft-protocol/specs/AFT-019-peer-discovery-and-capabilities.md).
+See [AFT-018 Decentralized Trust Network](specs/AFT-018-decentralized-trust-network.md) and [AFT-019 Peer Discovery And Capabilities](specs/AFT-019-peer-discovery-and-capabilities.md).
 
 ## Quickstart
 
-- Start with the overview: [aft-protocol/specs/AFT-000-overview.md](aft-protocol/specs/AFT-000-overview.md)
-- Read the decentralized trust model: [aft-protocol/specs/AFT-018-decentralized-trust-network.md](aft-protocol/specs/AFT-018-decentralized-trust-network.md)
-- Review peer discovery: [aft-protocol/specs/AFT-019-peer-discovery-and-capabilities.md](aft-protocol/specs/AFT-019-peer-discovery-and-capabilities.md)
-- Review the event envelope: [aft-protocol/specs/AFT-002-event-envelope.md](aft-protocol/specs/AFT-002-event-envelope.md)
-- Review the PQC strategy: [aft-protocol/specs/AFT-010-quantum-resistant-cryptography.md](aft-protocol/specs/AFT-010-quantum-resistant-cryptography.md)
-- Use JSON Schemas from [aft-protocol/schemas/](aft-protocol/schemas/)
-- Inspect example events in [aft-protocol/examples/](aft-protocol/examples/)
-- Review illustrative contracts in [aft-protocol/contracts/](aft-protocol/contracts/)
-- Explore the reference API in [aft-protocol/reference-api/openapi.yaml](aft-protocol/reference-api/openapi.yaml)
-- Read the whitepaper: [aft-protocol/docs/whitepaper.md](aft-protocol/docs/whitepaper.md)
+- Read the whitepaper: [docs/whitepaper.md](docs/whitepaper.md)
+- Review the spec index: [specs/index.md](specs/index.md)
+- Review the decentralized trust model: [specs/AFT-018-decentralized-trust-network.md](specs/AFT-018-decentralized-trust-network.md)
+- Review peer discovery: [specs/AFT-019-peer-discovery-and-capabilities.md](specs/AFT-019-peer-discovery-and-capabilities.md)
+- Review JSON Schemas: [schemas/](schemas/)
+- Inspect examples: [examples/](examples/)
+- Review the standards strategy: [STANDARDIZATION.md](STANDARDIZATION.md)
+- Explore the reference API: [reference-api/openapi.yaml](reference-api/openapi.yaml)
+
+## Contributing
+
+Contributions are welcome for specification review, schemas, examples, registry entries, integration profiles, privacy analysis, security analysis, PQC review, and conformance tests. Start with [CONTRIBUTING.md](CONTRIBUTING.md), open focused issues, and keep pull requests scoped.
+
+Security and vulnerability reports should follow [SECURITY.md](SECURITY.md). Cryptography and PQC changes should receive expert review before being treated as stable.
+
+## Standardization
+
+AFT is designed for multi-track standards discussion rather than one giant submission. See [STANDARDIZATION.md](STANDARDIZATION.md) for the proposed W3C, DIF, IETF, LF Decentralized Trust, payment ecosystem, and PQC review strategy.
 
 ## Repository Status
 
@@ -130,4 +161,4 @@ This repository contains a Draft 0.1 proposal. Implementers SHOULD treat all int
 
 ## License
 
-This repository is licensed under the Apache License, Version 2.0. See [aft-protocol/LICENSE](aft-protocol/LICENSE).
+This repository is licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE).

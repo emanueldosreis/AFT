@@ -7,6 +7,8 @@
   "type": "commonjs",
   "scripts": {
     "validate:json": "node tools/validate-peer-discovery.js --all-json",
+    "validate:schemas": "node tools/validate-peer-discovery.js --all-json",
+    "validate:examples": "node tools/validate-peer-discovery.js",
     "validate:peers": "node tools/validate-peer-discovery.js",
     "demo:multi-attestation": "node tools/multi-attestation-demo.js"
   }

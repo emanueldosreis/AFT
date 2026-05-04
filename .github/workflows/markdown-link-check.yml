@@ -1,0 +1,35 @@
+name: Markdown Sanity Check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Basic Markdown sanity check
+        run: |
+          count=$(find . -path ./.git -prune -o -name '*.md' -type f -print | wc -l)
+          echo "Found $count Markdown files."
+          find . -path ./.git -prune -o -name '*.md' -type f -print | while read -r file; do
+            if [ ! -s "$file" ]; then
+              echo "Empty Markdown file: $file"
+              exit 1
+            fi
+          done
+
+      - name: Run configured link checker if available
+        run: |
+          if [ -f package.json ] && node -e "const p=require('./package.json'); process.exit(p.scripts && p.scripts['markdown:links'] ? 0 : 1)"; then
+            npm install
+            npm run markdown:links
+          elif command -v markdown-link-check >/dev/null 2>&1; then
+            find . -path ./.git -prune -o -name '*.md' -type f -print -exec markdown-link-check {} \;
+          else
+            echo "No markdown-link-check tool or markdown:links script configured."
+            echo "Draft 0.1 workflow is non-blocking for external link checking."
+          fi

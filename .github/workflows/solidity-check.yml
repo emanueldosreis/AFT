@@ -1,0 +1,37 @@
+name: Solidity Check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  solidity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Detect and check Solidity contracts
+        run: |
+          if [ ! -d contracts ] || ! find contracts -name '*.sol' -type f -print -quit | grep -q .; then
+            echo "No Solidity contracts found."
+            exit 0
+          fi
+
+          echo "Solidity example contracts found under contracts/."
+          echo "These contracts are illustrative, unaudited, and not production-ready."
+
+          if [ -f foundry.toml ] && command -v forge >/dev/null 2>&1; then
+            forge build
+          elif [ -f hardhat.config.js ] || [ -f hardhat.config.ts ]; then
+            if [ -f package.json ]; then
+              npm install
+              npx hardhat compile
+            else
+              echo "Hardhat config found but no package.json; skipping compile."
+            fi
+          elif command -v solc >/dev/null 2>&1; then
+            find contracts -name '*.sol' -type f -print -exec solc --bin {} \;
+          else
+            echo "No Foundry, Hardhat, or solc toolchain configured; skipping Solidity compile."
+          fi
