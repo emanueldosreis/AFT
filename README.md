@@ -109,20 +109,20 @@ AFT standardizes common schemas, cryptographic rules, discovery documents, regis
       Independent reputation and risk providers
 ```
 
-See [AFT-018 Decentralized Trust Network](specs/AFT-018-decentralized-trust-network.md) and [AFT-019 Peer Discovery And Capabilities](specs/AFT-019-peer-discovery-and-capabilities.md).
+See [AFT-018 Decentralized Trust Network](aft-protocol/specs/AFT-018-decentralized-trust-network.md) and [AFT-019 Peer Discovery And Capabilities](aft-protocol/specs/AFT-019-peer-discovery-and-capabilities.md).
 
 ## Quickstart
 
-- Start with the overview: [specs/AFT-000-overview.md](specs/AFT-000-overview.md)
-- Read the decentralized trust model: [specs/AFT-018-decentralized-trust-network.md](specs/AFT-018-decentralized-trust-network.md)
-- Review peer discovery: [specs/AFT-019-peer-discovery-and-capabilities.md](specs/AFT-019-peer-discovery-and-capabilities.md)
-- Review the event envelope: [specs/AFT-002-event-envelope.md](specs/AFT-002-event-envelope.md)
-- Review the PQC strategy: [specs/AFT-010-quantum-resistant-cryptography.md](specs/AFT-010-quantum-resistant-cryptography.md)
-- Use JSON Schemas from [schemas/](schemas/)
-- Inspect example events in [examples/](examples/)
-- Review illustrative contracts in [contracts/](contracts/)
-- Explore the reference API in [reference-api/openapi.yaml](reference-api/openapi.yaml)
-- Read the whitepaper: [docs/whitepaper.md](docs/whitepaper.md)
+- Start with the overview: [aft-protocol/specs/AFT-000-overview.md](aft-protocol/specs/AFT-000-overview.md)
+- Read the decentralized trust model: [aft-protocol/specs/AFT-018-decentralized-trust-network.md](aft-protocol/specs/AFT-018-decentralized-trust-network.md)
+- Review peer discovery: [aft-protocol/specs/AFT-019-peer-discovery-and-capabilities.md](aft-protocol/specs/AFT-019-peer-discovery-and-capabilities.md)
+- Review the event envelope: [aft-protocol/specs/AFT-002-event-envelope.md](aft-protocol/specs/AFT-002-event-envelope.md)
+- Review the PQC strategy: [aft-protocol/specs/AFT-010-quantum-resistant-cryptography.md](aft-protocol/specs/AFT-010-quantum-resistant-cryptography.md)
+- Use JSON Schemas from [aft-protocol/schemas/](aft-protocol/schemas/)
+- Inspect example events in [aft-protocol/examples/](aft-protocol/examples/)
+- Review illustrative contracts in [aft-protocol/contracts/](aft-protocol/contracts/)
+- Explore the reference API in [aft-protocol/reference-api/openapi.yaml](aft-protocol/reference-api/openapi.yaml)
+- Read the whitepaper: [aft-protocol/docs/whitepaper.md](aft-protocol/docs/whitepaper.md)
 
 ## Repository Status
 
@@ -130,4 +130,4 @@ This repository contains a Draft 0.1 proposal. Implementers SHOULD treat all int
 
 ## License
 
-This repository is licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE).
+This repository is licensed under the Apache License, Version 2.0. See [aft-protocol/LICENSE](aft-protocol/LICENSE).
