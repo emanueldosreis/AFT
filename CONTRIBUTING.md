@@ -2,6 +2,18 @@
 
 AFT is a Draft 0.1 protocol proposal. Contributions are welcome when they improve precision, interoperability, security, privacy, or implementability.
 
+## Where To Focus Now
+
+The current executable focus is the signed financial event envelope with mandate binding (AFT-002 + AFT-004). The most impactful contributions right now are:
+
+- Corrections or edge cases in `src/canonicalize.js`, `src/sign.js`, `src/verify.js`, or `src/mandate.js`
+- Canonicalization and signature test vectors (see Interoperability Testing below)
+- A complete x402 integration example: x402 payment receipt → AFT signed event → verification
+- Schema corrections for `aft-event.schema.json` and `aft-mandate-ref.schema.json`
+- Security review of the signing and verification flow
+
+Blockchain anchoring, reputation scoring, PQC signing profiles, and conformance suite contributions are welcome but are not the current priority. See [docs/roadmap.md](roadmap.md) for the full deferred list.
+
 ## Issues
 
 Open an issue for:

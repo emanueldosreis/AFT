@@ -134,16 +134,52 @@ AFT standardizes common schemas, cryptographic rules, discovery documents, regis
 
 See [AFT-018 Decentralized Trust Network](specs/AFT-018-decentralized-trust-network.md) and [AFT-019 Peer Discovery And Capabilities](specs/AFT-019-peer-discovery-and-capabilities.md).
 
-## Quickstart
+## Two-Track Structure
+
+AFT operates on two parallel tracks.
+
+**Track 1 — Specification and prior-art record.** The [specs/](specs/) directory contains the full protocol vision across 16 documents covering identity, event envelopes, reputation, blockchain anchoring, privacy, PQC cryptography, governance, and conformance. These are the destination. They are stable as a reference and idea record, not as a production implementation.
+
+**Track 2 — Executable focus.** Active implementation work is concentrated on one primitive: the signed financial event envelope with mandate binding (AFT-002 + AFT-004). This is the atomic unit every other layer depends on, and it provides standalone value as a verifiable audit trail for any organization running agents — no network, peer, or reputation provider required.
+
+### Use Now — Reference Implementation
+
+Requirements: Node 18 or later. No external dependencies.
+
+```bash
+# Generate an Ed25519 key pair
+node src/cli.js keygen ./keys
+
+# Create a sample mandate
+node src/cli.js mandate mandate.json
+
+# Sign an event envelope
+node src/cli.js sign examples/x402-payment-settled.json ./keys/aft-private.pem key-1
+
+# Verify a signed event
+node src/cli.js verify examples/x402-payment-settled.signed.json ./keys/aft-public.pem
+```
+
+The implementation is in [src/](src/): `canonicalize.js` (RFC 8785 JCS), `mandate.js`, `sign.js`, `verify.js`, `cli.js`.
+
+### Read — Full Specification
 
 - Read the whitepaper: [docs/whitepaper.md](docs/whitepaper.md)
 - Review the spec index: [specs/index.md](specs/index.md)
-- Review the decentralized trust model: [specs/AFT-018-decentralized-trust-network.md](specs/AFT-018-decentralized-trust-network.md)
-- Review peer discovery: [specs/AFT-019-peer-discovery-and-capabilities.md](specs/AFT-019-peer-discovery-and-capabilities.md)
 - Review JSON Schemas: [schemas/](schemas/)
 - Inspect examples: [examples/](examples/)
 - Review the standards strategy: [STANDARDIZATION.md](STANDARDIZATION.md)
 - Explore the reference API: [reference-api/openapi.yaml](reference-api/openapi.yaml)
+- Read the gap analysis: [docs/gap-analysis.md](docs/gap-analysis.md)
+
+### Deferred
+
+The following are specified but not yet implemented. They will follow once the event envelope primitive has traction:
+
+- Blockchain anchoring and Merkle batching (AFT-006, Solidity contracts)
+- Reputation scoring engine (AFT-005)
+- Full conformance test suite (AFT-012)
+- PQC / ML-DSA signing profiles (AFT-010) — the algorithm identifier field is present in the schema; Ed25519 ships first and ML-DSA replaces it without schema changes
 
 ## Contributing
 
@@ -157,7 +193,9 @@ AFT is designed for multi-track standards discussion rather than one giant submi
 
 ## Repository Status
 
-This repository contains a Draft 0.1 proposal. Implementers SHOULD treat all interfaces as unstable until a governance process, conformance suite, security review, and cryptography review are complete.
+This repository contains a Draft 0.1 proposal. The [specs/](specs/) and [schemas/](schemas/) directories are the complete protocol vision and serve as a prior-art record. The [src/](src/) reference implementation covers the event envelope and mandate binding primitive (AFT-002 + AFT-004) and is the current executable focus.
+
+Implementers SHOULD treat all interfaces as unstable until a governance process, conformance suite, security review, and cryptography review are complete.
 
 ## License
 

@@ -5,11 +5,17 @@
   "description": "Draft 0.1 Agent Financial Trust Protocol specification repository.",
   "license": "Apache-2.0",
   "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
+    "aft": "node src/cli.js",
+    "keygen": "node src/cli.js keygen",
     "validate:json": "node tools/validate-peer-discovery.js --all-json",
     "validate:schemas": "node tools/validate-peer-discovery.js --all-json",
     "validate:examples": "node tools/validate-peer-discovery.js",
     "validate:peers": "node tools/validate-peer-discovery.js",
-    "demo:multi-attestation": "node tools/multi-attestation-demo.js"
+    "demo:multi-attestation": "node tools/multi-attestation-demo.js",
+    "test:sign-verify": "node src/cli.js help"
   }
 }

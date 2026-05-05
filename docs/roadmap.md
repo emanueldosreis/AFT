@@ -1,5 +1,37 @@
 # Roadmap
 
+## Current Focus
+
+Active implementation work is on one primitive: **the signed financial event envelope with mandate binding (AFT-002 + AFT-004)**.
+
+This is the atomic unit. Everything else — reputation, anchoring, dispute, credit — is downstream of a verified signed event. It also has a single-player value proposition: one organization running agents can deploy it as an internal mandate-compliance audit trail before any external peer network exists.
+
+Deliverables in scope now:
+
+- `src/canonicalize.js` — RFC 8785 JCS canonical JSON (done)
+- `src/mandate.js` — mandate building and hashing (done)
+- `src/sign.js` — Ed25519 event signing (done)
+- `src/verify.js` — signature, hash, and mandate compliance verification (done)
+- `src/cli.js` — `keygen`, `mandate`, `sign`, `verify` CLI (done)
+- x402 integration narrative and complete end-to-end worked example
+- Canonicalization and signature test vectors
+- Single-file validator for CI use
+
+## Deferred
+
+The following are fully specified but not yet implemented. They will be picked up once the event envelope primitive has traction and feedback:
+
+| Deferred area | Specs | Notes |
+| --- | --- | --- |
+| Blockchain anchoring and Merkle batching | AFT-006 | Solidity contracts exist; implementation waits for adoption signal |
+| Reputation scoring engine | AFT-005 | Needs real event data before scoring can be calibrated |
+| PQC / ML-DSA signing profiles | AFT-010 | Algorithm identifier is already in the schema; Ed25519 ships first |
+| Full conformance test suite | AFT-012 | Follows once the primitive is stable |
+| Peer discovery service | AFT-014, AFT-019 | Follows reference implementation |
+| Governance working groups | AFT-011 | Follows first external adopters |
+
+---
+
 ## Phase 0: Draft Specification And Schemas
 
 - Publish Draft 0.1 specifications.
